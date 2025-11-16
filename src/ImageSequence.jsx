@@ -6,7 +6,7 @@ const WHEEL_RATE_FPS = 24;
 const WHEEL_GRACE_MS = 120;
 
 const TOTAL_FRAMES = 1132;
-const FRAME_PATH = (i) => `${import.meta.env.BASE_URL}frames/${i}.jpg`;
+const FRAME_PATH = (i) => `${import.meta.env.BASE_URL}frames/(${i}).jpg`;
 const PRELOAD_CONCURRENCY = 1000;
 
 // 팬 강도(px). 이미지가 컨테이너보다 커야 자연스러움
