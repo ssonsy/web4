@@ -97,5 +97,5 @@ main {
 img, canvas, video { max-width: 100%; }
 
 html, body {
-  cursor: url("/cursor.png") 25 25, auto;
+  cursor: url("cursor.png") 25 25, auto;
 }
