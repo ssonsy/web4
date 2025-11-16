@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// https://vite.dev/config/
 export default defineConfig({
+  base: '/web4/',   // ✅ 레포 이름과 똑같이!
   plugins: [react()],
 })
