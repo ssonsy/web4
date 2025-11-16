@@ -1,0 +1,252 @@
+/* 기본 Vite 템플릿 스타일들 (그대로 유지) */
+#root {
+  max-width: 1920px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover { filter: drop-shadow(0 0 2em #646cffaa); }
+.logo.react:hover { filter: drop-shadow(0 0 2em #61dafbaa); }
+
+@keyframes logo-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo { animation: logo-spin infinite 20s linear; }
+}
+
+.card { padding: 2em; }
+.read-the-docs { color: #888; }
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* ⬇ 커서 설정(추가) */
+  /* main.jsx 에서 --app-cursor 값 주입됨 */
+  --app-cursor: auto;
+}
+
+a { font-weight: 500; color: #646cff; text-decoration: inherit; }
+a:hover { color: #535bf2; }
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 { font-size: 3.2em; line-height: 1.1; }
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer; /* 유지 */
+  transition: border-color 0.25s;
+}
+button:hover { border-color: #646cff; }
+button:focus, button:focus-visible { outline: 4px auto -webkit-focus-ring-color; }
+
+@media (prefers-color-scheme: light) {
+  :root { color: #213547; background-color: #ffffff; }
+  a:hover { color: #747bff; }
+  button { background-color: #f9f9f9; }
+}
+
+/* ----------------------------------------------------
+  🔽 여기부터 프로젝트(이미지 시퀀스/레이어) 관련 스타일
+  ---------------------------------------------------- */
+
+/* 기본 스타일 초기화 및 전체 화면 설정 */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  overflow: auto;
+}
+
+/* ⬇ 전역 커서 적용(추가) */
+html, body, #root, * {
+  cursor: var(--app-cursor) !important;
+}
+/* 버튼처럼 기본 포인터를 유지하려면 아래처럼 제외할 수도 있어요 (원하면 주석 해제)
+button, a, input, textarea, select { cursor: var(--app-cursor) !important; }
+*/
+
+/* 실제 스크롤바를 가질 컨테이너 */
+.scroll-container {
+  width: 100%;
+  height: 100vh;
+  overflow-y: scroll;
+  background: #000;
+}
+
+/* 스크롤 길이를 만들기 위한 더미 콘텐츠 영역 */
+.scroll-content {
+  height: 2500vh;
+  position: relative;
+}
+
+/* 스크롤 동안 화면에 고정될 이미지 */
+.sticky-image {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/* ---------------------------------
+  레이어2: FX 오버레이 공통 스타일
+  --------------------------------- */
+.fx-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+
+  /* 기존 안개/블러 유지 */
+  backdrop-filter: blur(8px) brightness(0.9) saturate(0.95);
+  background: rgba(255, 255, 255, 0.02);
+
+  /* ✅ 커서 위치에 '구멍'(마스크) — 원이 선명하게 보이도록 */
+  --mx: 50vw;       /* JS에서 갱신 가능 */
+  --my: 50vh;
+  --r: 60px;
+
+  mask-image: radial-gradient(
+    circle var(--r) at var(--mx) var(--my),
+    transparent 0,
+    transparent calc(var(--r) - 1px),
+    #000 calc(var(--r))
+  );
+  mask-repeat: no-repeat;
+
+  -webkit-mask-image: radial-gradient(
+    circle var(--r) at var(--mx) var(--my),
+    transparent 0,
+    transparent calc(var(--r) - 1px),
+    #000 calc(var(--r))
+  );
+  -webkit-mask-repeat: no-repeat;
+}
+
+.fx-fog-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+}
+
+/* 1) 비네트 */
+.fx-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(0,0,0,0) 60%, rgba(0,0,0,0.45) 100%);
+  mix-blend-mode: multiply;
+}
+
+/* 2) 컬러 틴트 */
+.fx-tint {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 230, 180, 0.08);
+  mix-blend-mode: multiply;
+}
+
+/* 3) 그레인 */
+.fx-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'>\
+  <filter id='n'>\
+    <feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/>\
+    <feColorMatrix type='saturate' values='0'/>\
+  </filter>\
+  <rect width='100%' height='100%' filter='url(%23n)'/>\
+</svg>");
+  background-size: 140px 140px;
+  animation: grainMove 1.5s steps(2) infinite;
+}
+@keyframes grainMove {
+  0%   { transform: translate(0, 0); }
+  50%  { transform: translate(-10px, 5px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* 디버그 스트라이프 */
+.fx-debug-stripes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.25;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 0, 0, 0.35) 0 12px,
+    rgba(255, 0, 0, 0.0) 12px 24px
+  );
+  background-size: 24px 24px;
+  animation: stripesMove 3s linear infinite;
+}
+.fx-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 6px 10px;
+  font-size: 12px;
+  line-height: 1;
+  color: #fff;
+  background: rgba(220, 20, 60, 0.85);
+  border-radius: 8px;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  user-select: none;
+}
+@keyframes stripesMove {
+  from { background-position: 0 0; }
+  to   { background-position: 200px 0; }
+}
+
+
+
+
+/* 기본 커서는 숨김 */
+html, body, #root, * {
+  cursor: none !important;
+}
