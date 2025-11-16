@@ -7,7 +7,7 @@ import './index.css';
 const TOTAL_FRAMES = 1132;
 const getImagePath = (frame) => `/frames/(${frame + 1}).jpg`;
 // ✅ 스크롤 끝 → 페이드아웃 후 이동할 URL
-const REDIRECT_URL = 'http://localhost:5173/';
+const REDIRECT_URL = 'www.naver.com';
 // --- 
 
 export default function App() {
